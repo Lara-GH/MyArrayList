@@ -8,15 +8,15 @@ public interface MyList<E> {
 
     void clear();
 
-    E get(int index);
+    Object get(int index);
 
     int indexOf(E e);
 
-    E remove(int index);
+    void remove(int index);
 
-    boolean remove(E e);
+    void remove(E e);
 
-    E set(E e, int index);
+    Object set(E e, int index);
 
     int size();
 }
