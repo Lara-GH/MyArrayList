@@ -16,27 +16,10 @@ public class MyArrayList<E> implements MyList<E> {
         values = new Object[DEFAULT_SIZE];
     }
 
-    public MyArrayList(Collection<? extends E> c) {
-        if (c.size() > 0) {
-            values = c.toArray();
-            size = values.length;
-            arraySize = size;
-            resize();
-        }
-    }
-
-    public MyArrayList(int initialCapasity) {
-        values = new Object[initialCapasity];
-    }
-
     private void resize() {
         if (size >= arraySize) {
-            Object[] newValues = new Object[size * 3 / 2 + 1];
-            System.arraycopy(values, 0, newValues, 0, size);
-            values = newValues;
-        }
-        if (size >= DEFAULT_SIZE && size < arraySize / 4) {
-            Object[] newValues = new Object[size * 3 / 2 + 1];
+            arraySize = size * 3 / 2 + 1;
+            Object[] newValues = new Object[arraySize];
             System.arraycopy(values, 0, newValues, 0, size);
             values = newValues;
         }
@@ -51,10 +34,12 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public void add(E e, int index) {
-        resize();
-        System.arraycopy(values, index, values, index + 1, size - index);
-        values[index] = e;
-        ++size;
+        if (index >= 0 && index <= size) {
+            resize();
+            System.arraycopy(values, index, values, index + 1, size - index);
+            values[index] = e;
+            ++size;
+        }
     }
 
     @Override
@@ -76,9 +61,11 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public int indexOf(E e) {
-        for (int i = 0; i < size; i++) {
-            if (values[i].equals(e)) {
-                return i;
+        if (e != null) {
+            for (int i = 0; i < size; i++) {
+                if (values[i].equals(e)) {
+                    return i;
+                }
             }
         }
         return -1;
